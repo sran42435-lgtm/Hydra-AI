@@ -120,3 +120,103 @@ const SettingsPage = () => {
           <option value="dark">Dark</option>
         </select>
       </div>
+// ======================================================
+// 🧩 PART 2 — ADVANCED SETTINGS, MODAL, FINAL RENDER
+// ======================================================
+
+      {/* MODEL SELECTION */}
+      <div className="settings-section">
+        <h2>Model AI</h2>
+
+        <select
+          value={settings.model}
+          onChange={(e) => handleChange("model", e.target.value)}
+        >
+          <option value="gpt-standard">Standard</option>
+          <option value="gpt-advanced">Advanced</option>
+          <option value="gpt-fast">Fast</option>
+        </select>
+      </div>
+
+      {/* RESPONSE MODE */}
+      <div className="settings-section">
+        <h2>Response Mode</h2>
+
+        <select
+          value={settings.responseMode}
+          onChange={(e) => handleChange("responseMode", e.target.value)}
+        >
+          <option value="balanced">Balanced</option>
+          <option value="creative">Creative</option>
+          <option value="precise">Precise</option>
+        </select>
+      </div>
+
+      {/* FONT SIZE */}
+      <div className="settings-section">
+        <h2>Font Size</h2>
+
+        <input
+          type="range"
+          min="12"
+          max="22"
+          value={settings.fontSize}
+          onChange={(e) =>
+            handleChange("fontSize", Number(e.target.value))
+          }
+        />
+        <span>{settings.fontSize}px</span>
+      </div>
+
+      {/* ACTION BUTTONS */}
+      <div className="settings-actions">
+        <Button onClick={handleSave} disabled={isSaving}>
+          {isSaving ? <Loader /> : "Save Changes"}
+        </Button>
+
+        <Button
+          variant="danger"
+          onClick={() => setShowResetModal(true)}
+        >
+          Reset Settings
+        </Button>
+      </div>
+
+      {/* RESET CONFIRM MODAL */}
+      {showResetModal && (
+        <Modal onClose={() => setShowResetModal(false)}>
+          <div className="modal-content">
+            <h3>Reset Settings?</h3>
+            <p>Semua konfigurasi akan kembali ke default.</p>
+
+            <div className="modal-actions">
+              <Button onClick={handleResetConfirm}>
+                Ya, Reset
+              </Button>
+              <Button
+                variant="secondary"
+                onClick={() => setShowResetModal(false)}
+              >
+                Batal
+              </Button>
+            </div>
+          </div>
+        </Modal>
+      )}
+
+      {/* TOAST NOTIFICATION */}
+      {toastMessage && (
+        <Toast
+          message={toastMessage}
+          onClose={() => setToastMessage(null)}
+        />
+      )}
+    </div>
+  );
+};
+
+// ======================================================
+// 🚀 EXPORT
+// ======================================================
+
+export default SettingsPage;
